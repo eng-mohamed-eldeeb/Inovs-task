@@ -1,0 +1,48 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @user %>
+
+<div style="padding: 10px;">
+  <%= link_to "Edit this user", edit_user_path(@user) %> |
+  <%= link_to "Back to users", users_path %>
+
+  <div style="display: flex; padding: 10px;">
+    <div style="flex: 1;">
+      <h1 style="color: blue;"><%= @user.username%> stories </h1>
+      <% if @user.stories.length == 0 %>
+        <h2> No stories yet </h2>
+      <% end %>
+      <% @user.stories.each do |story| %>
+        <h2><%= story.title %></h2>
+        <p><%= story.body %></p>
+      <% end %>
+      <%= link_to "Create a new story", new_story_path %>
+    </div>
+
+    <div style="flex: 1;">
+      <h1 style="color: blue;"><%= @user.username%> Posts </h1>
+      <% if @user.posts.length == 0 %>
+        <h2> No posts yet </h2>
+      <% end %>
+      <% @user.posts.each do |post| %>
+        <h2><%= post.title %></h2>
+        <p><%= post.body %></p>
+        <% if !post.ratings %>
+          <h2> No ratings yet </h2>
+        <% else %>
+        <% post.ratings.each do |rating| %>
+          <p> ----------------------- </p>
+          <p>by: <%= rating.user.username %></p>
+          <p><%= rating.stars %> stars</p>
+          <p> => <%= rating.comment %></p>
+          <p> ----------------------- </p>
+        <% end %>
+        <% end %>
+        <% end %>
+        <%= link_to "Create a new post", new_post_path %>
+        <div style="margin: 10px 0;">
+        <%= link_to "Add a new rating", new_rating_path %>
+        </div>
+
+  <%= button_to "Destroy this user", @user, method: :delete, style: "margin: 50px 0;" %>
+</div>
